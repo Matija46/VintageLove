@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.loc.loginscreencomposeyt.MyTextField
@@ -57,9 +58,12 @@ fun LoginScreen() {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Welcome to locoding",
+                        text = "Dobrodošli na nepremičnine tracker",
                         style = MaterialTheme.typography.headlineMedium,
-                        color = Color.White
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp) // Optional padding for better alignment
                     )
                 }
             }
@@ -76,7 +80,7 @@ fun LoginScreen() {
                     Spacer(modifier = Modifier.fillMaxSize(0.1f))
                 }
                 Text(
-                    text = "log in",
+                    text = "PRIJAVA",
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color.Black
                 )
@@ -87,14 +91,14 @@ fun LoginScreen() {
                 }
                 MyTextField(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    label = "Username",
+                    label = "Uporabniško ime",
                     keyboardOptions = KeyboardOptions(),
                     keyboardActions = KeyboardActions()
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 MyTextField(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    label = "Password",
+                    label = "Geslo",
                     keyboardOptions = KeyboardOptions(),
                     keyboardActions = KeyboardActions(),
                     trailingIcon = Icons.Default.Lock
@@ -102,7 +106,7 @@ fun LoginScreen() {
 
                 if (isImeVisible) {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {  },
                         modifier = Modifier.fillMaxWidth().padding(top = 20.dp).padding(horizontal = 16.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF0D4C92),
@@ -111,7 +115,7 @@ fun LoginScreen() {
                         shape = RoundedCornerShape(10.dp)
                     ) {
                         Text(
-                            text = "Log in",
+                            text = "Prijava",
                             style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight(500))
                         )
                     }
@@ -122,7 +126,7 @@ fun LoginScreen() {
                             .padding(horizontal = 16.dp), contentAlignment = Alignment.CenterStart
                     ) {
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = { },
                             modifier = Modifier.fillMaxWidth(),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFF0D4C92),
@@ -131,7 +135,7 @@ fun LoginScreen() {
                             shape = RoundedCornerShape(10.dp)
                         ) {
                             Text(
-                                text = "Log in",
+                                text = "Prijava",
                                 style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight(500))
                             )
                         }

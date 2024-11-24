@@ -1,4 +1,5 @@
-package com.loc.loginscreencomposeyt
+package com.example.vintagelove
+
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
