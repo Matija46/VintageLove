@@ -1,133 +1,151 @@
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+package com.example.vintagelove
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vintagelove.R
+import com.loc.loginscreencomposeyt.MyTextField
+import com.loc.loginscreencomposeyt.isSmallScreenHeight
+import com.loc.loginscreencomposeyt.rememberImeState
 
 @Composable
-fun LoginScreen(onLoginClick: (String, String) -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf("") }
+fun LoginScreen() {
+    val isImeVisible by rememberImeState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
+    GradientBox(modifier = Modifier.fillMaxSize()) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // App Logo
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground), // Replace with your logo resource
-                contentDescription = "App Logo",
-                modifier = Modifier.size(100.dp)
+            val animatedUpperSectionRatio by animateFloatAsState(
+                targetValue = if (isImeVisible) 0f else 0.35f,
+                label = "",
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            AnimatedVisibility(visible = !isImeVisible, enter = fadeIn(), exit = fadeOut()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(animatedUpperSectionRatio),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Welcome to locoding",
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = Color.White
+                    )
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
+                    .background(Color.White),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (isSmallScreenHeight()) {
+                    Spacer(modifier = Modifier.fillMaxSize(0.05f))
+                } else {
+                    Spacer(modifier = Modifier.fillMaxSize(0.1f))
+                }
+                Text(
+                    text = "log in",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = Color.Black
+                )
+                if (isSmallScreenHeight()) {
+                    Spacer(modifier = Modifier.fillMaxSize(0.05f))
+                } else {
+                    Spacer(modifier = Modifier.fillMaxSize(0.1f))
+                }
+                MyTextField(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    label = "Username",
+                    keyboardOptions = KeyboardOptions(),
+                    keyboardActions = KeyboardActions()
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                MyTextField(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    label = "Password",
+                    keyboardOptions = KeyboardOptions(),
+                    keyboardActions = KeyboardActions(),
+                    trailingIcon = Icons.Default.Lock
+                )
 
-            // Title
-            Text(
-                text = "Welcome Back",
-                style = MaterialTheme.typography.displayLarge,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Please login to your account",
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Email Input
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("Email Address") },
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                singleLine = true
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Password Input
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth(),
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
-                    val image = if (passwordVisible) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_24
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            painter = painterResource(id = image),
-                            contentDescription = "Toggle Password Visibility"
+                if (isImeVisible) {
+                    Button(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier.fillMaxWidth().padding(top = 20.dp).padding(horizontal = 16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF0D4C92),
+                            contentColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            text = "Log in",
+                            style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight(500))
                         )
                     }
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                singleLine = true
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Error Message
-            if (errorMessage.isNotEmpty()) {
-                Text(
-                    text = errorMessage,
-                    color = Color.Red,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            // Login Button
-            Button(
-                onClick = {
-                    if (email.isBlank() || password.isBlank()) {
-                        errorMessage = "Both fields are required"
-                    } else {
-                        errorMessage = ""
-                        onLoginClick(email, password)
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp), contentAlignment = Alignment.CenterStart
+                    ) {
+                        Button(
+                            onClick = { /*TODO*/ },
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF0D4C92),
+                                contentColor = Color.White
+                            ),
+                            shape = RoundedCornerShape(10.dp)
+                        ) {
+                            Text(
+                                text = "Log in",
+                                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight(500))
+                            )
+                        }
                     }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
-                Text(text = "Login")
-            }
-            Spacer(modifier = Modifier.height(16.dp))
+                }
 
-            // Sign Up Option
-            /*TextButton(onClick = { /* Navigate to Sign Up Screen */ }) {
-                Text(
-                    text = "Don't have an account? Sign Up",
-                    color = MaterialTheme.colors.primary,
-                    style = MaterialTheme.typography.body2
-                )
-            }*/
+            }
         }
     }
 }
+
+
+
+
+
+
+
